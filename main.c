@@ -293,7 +293,7 @@ void Fall_Handler(void){
         //GameOver Condition
         if((Playerposition.x >= (platform1.x+platform1.width)) && 
           (Playerposition.x <= (platform2.x + platform2.width)) && Playerposition.y == (screenHeight-120)) 
-                gameStart == false;
+                gameStart = false;
 }
 
 void Letter_Spawn(int r){
