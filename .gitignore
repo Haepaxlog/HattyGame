@@ -1,2 +1,4 @@
 asset_templates/
 debug/
+executable/*
+!executable/
