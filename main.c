@@ -92,7 +92,7 @@ int main(void){
 
         gameStart = false;
         
-        title = LoadTexture("./assets/title.png");
+        title = LoadTexture("../assets/title.png");
         button = (Rectangle){0,0,64,32};
 
         while(!WindowShouldClose()){
@@ -222,8 +222,8 @@ void InitGame(void){
         gameStart = true;
 
         Position = (Vector2) {screenWidth/2,(screenHeight-platform1.height)-120};
-        hatty = LoadTexture("./assets/hatty_full.png");
-        letter = LoadTexture("./assets/letter.png");
+        hatty = LoadTexture("../assets/hatty_full.png");
+        letter = LoadTexture("../assets/letter.png");
         
         for(int i = 0;i < 10; i++){
                 hitbox[i].Position = (Vector2){0,0};
