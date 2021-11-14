@@ -3,5 +3,5 @@
 #Name : run.sh
 
 make install
-cd executable
+cd build
 ./main

@@ -11,4 +11,4 @@ else
 endif
 
 install: $(SOURCES) 
-	gcc $(SOURCES) -o ./executable/main $(DEP)
+	gcc $(SOURCES) -o ./build/main $(DEP)
