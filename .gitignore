@@ -1,4 +1,2 @@
 asset_templates/
 debug/
-build/*
-!build/.gitkeep
