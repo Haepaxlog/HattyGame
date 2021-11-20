@@ -117,9 +117,18 @@ int main(void){
         framesCounter++;
         
         spawnCounter++;
-        
 
-     
+        if(Position.y + 128 > screenHeight-platform1.height+10){
+                grounded = false;
+        } else{
+                grounded = true;
+        }
+        
+        
+        if(Position.x >= platform1.width-35 && Position.x <= screenWidth-platform2.width-80){
+               if(!up)
+                jumped = true;
+        }
 
         Letter_Spawn(random_number);
         
@@ -127,9 +136,6 @@ int main(void){
         Jump_Handler();
         Mov_Handler();    
         
-        if((Position.x >= (platform1.width -150)) && 
-         (Position.x <= (platform2.x - 400)) && !up && !jumped)        
-         Position.y += 2;
 
        
         Playerposition = (Vector2) {Position.x,Position.y};
@@ -137,6 +143,12 @@ int main(void){
 
         
         Letter_Handler();
+
+        if(Playerposition.y >= screenHeight){
+                gameStart = false;
+                 UnloadTexture(hatty);
+                UnloadTexture(letter); 
+        }
         
      } 
 
@@ -184,8 +196,7 @@ int main(void){
                             RAYWHITE);
 
                 //Debug 
-
-                DrawRectangleRec((Rectangle){platform1.width,platform1.y + 50,platform2.x -400,platform1.y},PINK);
+                //DrawRectangleRec((Rectangle){platform1.width,platform1.y + 50,platform2.x -400,platform1.y},PINK);
                
               char str[20];
               sprintf(str,"%i",point_count);
@@ -249,17 +260,16 @@ void Jump_Handler(void){
                 
                 Position.y += count_notjumped;
                 count_notjumped++;
-               
-               //side limitation (might remove later)
-                if(Position.y+128 <= screenHeight+platform1.height-120){               
-                if(hit_detected((Rectangle){Position.x +50,Position.y,PlayerSize.x,PlayerSize.y},platform1) || (hit_detected((Rectangle){Position.x-20,Position.y,PlayerSize.x,PlayerSize.y},platform2))){
+                              
+                if((hit_detected((Rectangle){Position.x +60,Position.y,PlayerSize.x,PlayerSize.y},platform1) || 
+                  (hit_detected((Rectangle){Position.x-20,Position.y,PlayerSize.x,PlayerSize.y},platform2))) && grounded){
                      
                         jumped = false;
                         count_notjumped = 0;
                         up = false;
                         
                         }
-                }
+                
         }
         if(up && !jumped){
                         
@@ -274,14 +284,19 @@ void Jump_Handler(void){
 
 void Mov_Handler(void){
         if(IsKeyDown(KEY_LEFT)){
-                if((Position.x - speed) >= (-20)){
+                if(Position.x - speed+30){
                 Position.x -= speed;
+                if(hit_detected((Rectangle){Position.x,Position.y,PlayerSize.x,PlayerSize.y},(Rectangle){platform1.width-35,screenHeight+10-platform1.height,1,platform1.y}))
+                Position.x += speed;
                 srcRect = (Rectangle){0,32,32,32};
-                }
+                } 
         }
+        
         if(IsKeyDown(KEY_RIGHT)){
                 if((Position.x + speed) <= screenWidth-128){
                 Position.x += speed;
+                if(hit_detected((Rectangle){Position.x,Position.y,PlayerSize.x,PlayerSize.y},(Rectangle){screenWidth-platform2.width,screenHeight+10-platform2.height,1,platform2.y}))
+                Position.x -= speed;
                 srcRect = (Rectangle){32,32,32,32};
                 }
         }
@@ -296,11 +311,18 @@ void Mov_Handler(void){
                         }
                         } else{
                        srcRect = (Rectangle){0,0,32,32};
-                }
-        }
+                                }
+                        }
+         /*else {
+                if(Position.x + PlayerSize.x > screenWidth-platform2.width)
+                        Position.x -= speed;
+                if(Position.x-10 < platform1.width)
+                        Position.x += speed;
+                
 
+
+        }*/
 }
-
 
 
 void Fall_Handler(void){
