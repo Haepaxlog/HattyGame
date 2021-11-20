@@ -21,7 +21,7 @@ bool hit_detected(Rectangle r1,Rectangle r2){
 //Constants-------------------------------------------------------------
 const int Widths[] = {100,200,300,400,500,600,700,800,900};
 const int speed = 10;
-const Vector2 PlayerSize = {64,64};
+const Vector2 PlayerSize = {128,128};
 
 //Screen Size
 const int screenWidth = 1000;
@@ -66,6 +66,8 @@ static int count_notjumped = 0;
 static int count_jumped = 0;
 static bool up = false;
 
+
+static bool grounded = false;
 //Game Loop Variable
 static bool gameStart = false;
 
@@ -122,10 +124,12 @@ int main(void){
         Letter_Spawn(random_number);
         
         
-        
         Jump_Handler();
-        Mov_Handler();            
-        Fall_Handler();
+        Mov_Handler();    
+        
+        if((Position.x >= (platform1.width -150)) && 
+         (Position.x <= (platform2.x - 400)) && !up && !jumped)        
+         Position.y += 2;
 
        
         Playerposition = (Vector2) {Position.x,Position.y};
@@ -177,7 +181,11 @@ int main(void){
                             (Rectangle){Playerposition.x,Playerposition.y,128,128},
                             (Vector2){0,0},
                             0.0f, 
-                            RAYWHITE);  
+                            RAYWHITE);
+
+                //Debug 
+
+                DrawRectangleRec((Rectangle){platform1.width,platform1.y + 50,platform2.x -400,platform1.y},PINK);
                
               char str[20];
               sprintf(str,"%i",point_count);
@@ -185,6 +193,7 @@ int main(void){
                 
 
                 }
+
 
         EndDrawing();
 
@@ -217,11 +226,11 @@ void InitGame(void){
         count_jumped = 18;
         up = false;
        
-
+        grounded = true;
   
         gameStart = true;
 
-        Position = (Vector2) {screenWidth/2,(screenHeight-platform1.height)-120};
+        Position = (Vector2) {screenWidth/2 + 100,(screenHeight-platform1.height)-120};
         hatty = LoadTexture("../assets/hatty_full.png");
         letter = LoadTexture("../assets/letter.png");
         
@@ -240,11 +249,17 @@ void Jump_Handler(void){
                 
                 Position.y += count_notjumped;
                 count_notjumped++;
-                if(Position.y == ((screenHeight-platform1.height)-120)){
+               
+               //side limitation (might remove later)
+                if(Position.y+128 <= screenHeight+platform1.height-120){               
+                if(hit_detected((Rectangle){Position.x +50,Position.y,PlayerSize.x,PlayerSize.y},platform1) || (hit_detected((Rectangle){Position.x-20,Position.y,PlayerSize.x,PlayerSize.y},platform2))){
+                     
                         jumped = false;
                         count_notjumped = 0;
                         up = false;
-                 }
+                        
+                        }
+                }
         }
         if(up && !jumped){
                         
@@ -259,7 +274,7 @@ void Jump_Handler(void){
 
 void Mov_Handler(void){
         if(IsKeyDown(KEY_LEFT)){
-                if((Position.x - speed) >= (-20)){ 
+                if((Position.x - speed) >= (-20)){
                 Position.x -= speed;
                 srcRect = (Rectangle){0,32,32,32};
                 }
@@ -283,17 +298,21 @@ void Mov_Handler(void){
                        srcRect = (Rectangle){0,0,32,32};
                 }
         }
+
 }
+
+
 
 void Fall_Handler(void){
         //Ground Behaviour
-        if((Playerposition.x >= (platform1.x+platform1.width)) && 
-          (Playerposition.x <= (platform2.x + platform2.width)))
-          Playerposition.y += 2; 
+        if((Position.x >= (platform1.width )) && 
+          (Position.x <= platform2.x - 100))
+                Position.y += 2;
+
         //GameOver Condition
-        if((Playerposition.x >= (platform1.x+platform1.width)) && 
-          (Playerposition.x <= (platform2.x + platform2.width)) && Playerposition.y == (screenHeight-120)) 
-                gameStart = false;
+        /*if((Position.x >= (platform1.x+platform1.width)) && 
+          (Position.x <= (platform2.x + platform2.width)) && Position.y == (screenHeight-120)) 
+                gameStart = false;*/
 }
 
 void Letter_Spawn(int r){
