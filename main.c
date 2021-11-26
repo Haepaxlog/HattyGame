@@ -40,7 +40,10 @@ Rectangle srcRect = {0};
 //Textures
 Texture2D hatty = {0};
 Texture2D letter = {0};
+Texture2D plus_score = {0};
 
+//Icon
+Image WindowIcon = {0};
 
 //Statics--------------------------------------------------------------
 
@@ -50,7 +53,7 @@ static Texture2D title = {0};
 static Rectangle button = {0};
 
 //Game Loop Variable
-static bool gameStart = false;
+bool gameStart = false;
 
 //Global Functions
 static void UnloadTextures(void);
@@ -76,14 +79,29 @@ int count_jumped = 0;
 bool up = false;
 bool grounded = false;
 
+//Timer and Collector
+int second_counter = 0;
+int time_left = 0;
+int letter_collect = 0;
+int phase_count = 0;
+int multiplier = 0;
+
+bool position_change = false;
+int current_rect = 0;
+int recent_rect = 0;
+
+
 
 int main(void){
         
         //Random Seed
         srand(time(NULL));
 
-        InitWindow(screenWidth,screenHeight,"texture tester");        
+        InitWindow(screenWidth,screenHeight,"HattyGame");        
         SetTargetFPS(60);
+
+        WindowIcon = LoadImage("../assets/hatty_icon.png");
+        SetWindowIcon(WindowIcon);
 
         gameStart = false;
         
@@ -103,6 +121,8 @@ int main(void){
         int random_number = rand() % 10;
 
         framesCounter++;
+
+        if(framesCounter%60) second_counter++;
         
         spawnCounter++;
 
@@ -115,6 +135,7 @@ int main(void){
         
         Letter_Spawn(random_number);
         
+        Collection_Handler();
         
         Jump_Handler();
         Mov_Handler();    
@@ -168,6 +189,18 @@ void InitGame(void){
        framesCounter = 0;
        duration = 0;
        srcRect = (Rectangle){0};
+      
+       multiplier = 0;
+
+        bool position_change = false;
+        int current_rect = 0;
+        int recent_rect = 2;
+
+       second_counter = 0;
+       time_left = 400;
+       letter_collect = (rand()%50) + multiplier;
+       phase_count = 0;
+
        
 
         count_notjumped = 0;
@@ -181,6 +214,7 @@ void InitGame(void){
         Position = (Vector2) {screenWidth/2 + 100,(screenHeight-platform1.height)-120};
         hatty = LoadTexture("../assets/hatty_full.png");
         letter = LoadTexture("../assets/letter.png");
+        plus_score = LoadTexture("../assets/plus_score.png");
         
         for(int i = 0;i < 10; i++){
                 hitbox[i].Position = (Vector2){0,0};
@@ -198,9 +232,15 @@ void Draw_Title(void){
 }       
 
 void Draw_Score(void){
-        char str[20];
-        sprintf(str,"%i",point_count);
-        DrawText(str,20,20,40,BLACK);
+        char str_point_count[20];
+        sprintf(str_point_count,"Letters:%i",point_count);
+        DrawText(str_point_count,20,20,40,BLACK);
+        char str_time_left[20];
+        sprintf(str_time_left,"Time:%i",time_left);
+        DrawText(str_time_left,screenWidth-180,20,40,BLACK);
+        char str_letter_collect[20];
+        sprintf(str_letter_collect,"Goal:%i",letter_collect);
+        DrawText(str_letter_collect,screenWidth-180,60,40,BLACK);
 }
 
 void Draw(void){
@@ -225,4 +265,6 @@ void UnloadTextures(void){
         UnloadTexture(hatty);
         UnloadTexture(letter);
         UnloadTexture(title);
+        UnloadTexture(plus_score);
+        UnloadImage(WindowIcon);
 }

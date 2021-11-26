@@ -1,6 +1,7 @@
 #include "raylib.h"
 #include "Player.h"
 
+
 void Jump_Handler(void){
         if(IsKeyPressed(KEY_UP) && !up) up = true;
         if(jumped){
@@ -75,4 +76,42 @@ void Draw_Player(void){
                     (Vector2){0,0},
                     0.0f, 
                     RAYWHITE);
+
+
+    /* DrawTexturePro(plus_score,
+                    (Rectangle){0,0,32,32},
+                    (Rectangle){Playerposition.x+PlayerSize.x,Playerposition.y,64,64},
+                    (Vector2){0,0},
+                    0.0f,
+                    RAYWHITE);*/
+}
+
+void Collection_Handler(void){
+        
+        time_left--;
+        if(time_left == 0) gameStart = false;
+
+
+        if(Position.x >= platform1.width-35){
+                current_rect = 1;
+        }
+        if(Position.x <= screenWidth-platform2.width-100){
+                current_rect = 2;
+        }
+
+        if(recent_rect != current_rect){
+                time_left+= 50;
+        }
+
+        recent_rect = current_rect;
+
+
+               
+
+        if(point_count == letter_collect){
+                time_left += 200;
+                phase_count += 1;
+                multiplier++;
+                letter_collect += (rand()%50) + multiplier;
+        }
 }
