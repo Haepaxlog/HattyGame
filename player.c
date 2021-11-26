@@ -8,8 +8,8 @@ void Jump_Handler(void){
                 
                 Position.y += count_notjumped;
                 count_notjumped++;
-                              
-                if((hit_detected((Rectangle){Position.x +60,Position.y,PlayerSize.x,PlayerSize.y},platform1) || 
+                                //2 -20      
+                if((hit_detected((Rectangle){Position.x +30,Position.y,PlayerSize.x,PlayerSize.y},platform1) || 
                   (hit_detected((Rectangle){Position.x-20,Position.y,PlayerSize.x,PlayerSize.y},platform2))) && grounded){
                      
                         jumped = false;
@@ -115,9 +115,6 @@ void Collection_Handler(void){
         }
 
         recent_rect = current_rect;
-
-
-               
 
         if(point_count == letter_collect){
                 time_left += 200;
