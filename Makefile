@@ -1,15 +1,15 @@
 SOURCES = ./build/player.o ./build/letter.o ./build/main.o
 
-LIBS = -L $(LIB)
+LIBS = -L$(LIB)
 
-LIB = lib/
+LIB = ./lib/
 
-INC = -I include/
+INC = -I./include/
 
 ifeq ($(OS),Windows_NT)
-	DEP = -O1 -Wall -std=c99 -Wno-missing-braces $(LIBS)windows -lraylib -lopengl32 -lgdi32 -lwinmm
+	DEP = -O1 -Wall -std=c99 -Wno-missing-braces $(LIBS)windows/ -lraylib -lopengl32 -lgdi32 -lwinmm
 else
-	DEP = $(LIBS)linux -lraylib
+	DEP =  -O1 -Wall -std=c99 -Wno-missing-braces $(LIBS)linux/ -lraylib -lGL  -lm -lpthread -ldl  
 endif
 
 Player: player.c 

@@ -41,7 +41,7 @@ void Letter_Handler(void){
 
 void Draw_Letters(void){
     for(int i = 0;i < 10;i++){
-                      if(hitbox[i].Position.y != 0)
+                      if(hitbox[i].Position.x != 0)
                       DrawTexturePro(letter,
                                      (Rectangle){0,0,hitbox[i].size.x+5,hitbox[i].size.y+5},
                                      (Rectangle){hitbox[i].Position.x,hitbox[i].Position.y,64,64},
