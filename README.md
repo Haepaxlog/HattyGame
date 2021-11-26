@@ -18,7 +18,7 @@ and remember to include the library and header files specifically.
 ## Autobuild
 #### On Windows
 Download the binary listed on Releases or execute the following command:
->make Player Letter Main install   
+>make install   
 #### On Linux
 Execute the following command:
->make Player Letter Main install  
+>make install  
