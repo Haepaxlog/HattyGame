@@ -43,7 +43,9 @@ extern bool position_change;
 extern int current_rect;
 extern int recent_rect;
 
+extern int delay;
 
+extern bool activated;
 
 
 void Jump_Handler(void);

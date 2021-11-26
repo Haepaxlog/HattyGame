@@ -78,12 +78,22 @@ void Draw_Player(void){
                     RAYWHITE);
 
 
-    /* DrawTexturePro(plus_score,
+    if(!up && activated){    
+    if(delay < 40){    
+            delay++;
+    DrawTexturePro(plus_score,
                     (Rectangle){0,0,32,32},
-                    (Rectangle){Playerposition.x+PlayerSize.x,Playerposition.y,64,64},
+                    (Rectangle){Playerposition.x+PlayerSize.x,Playerposition.y,96,96},
                     (Vector2){0,0},
                     0.0f,
-                    RAYWHITE);*/
+                    RAYWHITE);
+    } else if(delay == 40){
+            activated = false;
+            delay = 0;
+        } 
+    }
+
+
 }
 
 void Collection_Handler(void){
@@ -92,15 +102,16 @@ void Collection_Handler(void){
         if(time_left == 0) gameStart = false;
 
 
-        if(Position.x >= platform1.width-35){
+        if(Position.x <= platform1.width-35){
                 current_rect = 1;
         }
-        if(Position.x <= screenWidth-platform2.width-100){
+        if(Position.x >= screenWidth-platform2.width-100){
                 current_rect = 2;
         }
 
         if(recent_rect != current_rect){
                 time_left+= 50;
+                activated  = true;
         }
 
         recent_rect = current_rect;

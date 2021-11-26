@@ -86,9 +86,13 @@ int letter_collect = 0;
 int phase_count = 0;
 int multiplier = 0;
 
-bool position_change = false;
+
 int current_rect = 0;
 int recent_rect = 0;
+
+int delay = 0;
+
+bool activated = false;
 
 
 
@@ -192,9 +196,12 @@ void InitGame(void){
       
        multiplier = 0;
 
-        bool position_change = false;
-        int current_rect = 0;
-        int recent_rect = 2;
+       delay = 0;
+
+       activated = false;
+
+        current_rect = 0;
+        recent_rect = 2;
 
        second_counter = 0;
        time_left = 400;
