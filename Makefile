@@ -21,5 +21,8 @@ Letter: letter.c
 Main: main.c
 	gcc -c -o ./build/main.o main.c $(INC) $(DEP)
 
-install: $(SOURCES)  
+link: $(SOURCES)  
 	gcc -o ./build/main $(SOURCES) $(INC) $(DEP)
+
+install: player.c letter.c main.c
+	make Player Letter Main link

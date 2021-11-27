@@ -6,6 +6,6 @@ make Player
 make Letter
 make Main
 
-make install
+make link
 cd build
 ./main
