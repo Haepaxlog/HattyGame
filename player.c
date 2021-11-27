@@ -8,7 +8,7 @@ void Jump_Handler(void){
                 
                 Position.y += count_notjumped;
                 count_notjumped++;
-                                //2 -20      
+                                  
                 if((hit_detected((Rectangle){Position.x +30,Position.y,PlayerSize.x,PlayerSize.y},platform1) || 
                   (hit_detected((Rectangle){Position.x-20,Position.y,PlayerSize.x,PlayerSize.y},platform2))) && grounded){
                      
