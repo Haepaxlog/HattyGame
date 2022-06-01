@@ -22,7 +22,7 @@ Main: main.c
 	gcc -c -o ./build/main.o main.c $(INC) $(DEP)
 
 link: $(SOURCES)  
-	gcc -o ./build/main $(SOURCES) $(INC) $(DEP)
+	gcc -o ./build/HattyGame $(SOURCES) $(INC) $(DEP)
 
 install: player.c letter.c main.c
 	make Player Letter Main link
